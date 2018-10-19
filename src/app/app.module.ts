@@ -10,11 +10,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MarkdownModule } from 'ngx-markdown';
 import { AppSharedModule } from './_shared/app.shared.module';
 import { PipesModule } from './_shared/pipes/pipes.module';
+import { SearchService } from './_shared/services/search.service';
 import { UserService } from './_shared/services/user.service';
 import { AppComponent } from './app.component';
 import { AppMaterialModule } from './app.material.module';
 import { AppRoutingModule } from './app.routing';
-import { SearchService } from './_shared/services/search.service';
 import { environment } from '../environments/environment';
 
 @NgModule({
