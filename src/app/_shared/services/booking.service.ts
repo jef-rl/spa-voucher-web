@@ -6,6 +6,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { UserAccount } from '../models/user-account.model';
+import { TaskService } from './dashboard/task.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,11 @@ export class VenueBookingService {
   venueBooking$ = new BehaviorSubject<VenueBooking>(null);
   private venueBooking;
   private user: UserAccount;
-  constructor(private afs: AngularFirestore, private userService: UserService) {
+  constructor(
+    private afs: AngularFirestore,
+    private userService: UserService,
+    private taskService: TaskService
+  ) {
     this.userService.getUser().subscribe(userAccount => {
       this.user = userAccount;
       if (this.venueBooking && this.venueBooking.name === '') {
@@ -93,11 +98,11 @@ export class VenueBookingService {
         const bookingId = this.afs.createId();
         this.venueBooking.id = bookingId;
         this.venueBooking.submitted = new Date();
-
         this.afs
           .doc('booking/' + bookingId)
           .set(this.venueBooking)
           .then(venueBooking => {
+            this.taskService.New('booking', bookingId, this.venueBooking.date);
             this.venueBooking$.next(this.venueBooking);
           });
       } else {

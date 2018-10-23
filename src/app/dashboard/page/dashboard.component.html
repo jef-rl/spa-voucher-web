@@ -1,0 +1,21 @@
+<ui-banner>Dashboard</ui-banner>
+<button (click)="add()">Add</button>
+<ul>
+  <li *ngFor="let shirt of shirts | async" (click)="selectedShirt===shirt ? selectedShirt=null: selectedShirt=shirt"> {{ shirt.name }} is {{ shirt.price }} </li>
+</ul>
+<ng-container *ngIf="selectedShirt">
+  <mat-form-field>
+    <mat-label>Name</mat-label>
+    <input matInput type="text" [(ngModel)]="selectedShirt.name">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Price</mat-label>
+    <input matInput type="number" [(ngModel)]="selectedShirt.price">
+  </mat-form-field>
+  <button (click)="update(selectedShirt)">update</button>
+
+</ng-container>
+<hr>
+<!-- <ul>
+  <li *ngFor="let action of actions | async"> {{ action. | json }} </li>
+</ul> -->

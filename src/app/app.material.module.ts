@@ -38,7 +38,7 @@ import { ObserversModule } from '@angular/cdk/observers';
 // import { PortalModule } from '@angular/cdk/portal';
 import { LayoutModule } from '@angular/cdk/layout';
 // import { MatMomentDateModule } from '@angular/material-moment-adapter';
-
+import {DragDropModule} from '@angular/cdk/drag-drop';
 @NgModule({
   imports: [
     // MatMomentDateModule,
@@ -84,6 +84,7 @@ import { LayoutModule } from '@angular/cdk/layout';
     // CdkTableModule,
     // A11yModule,
     // BidiModule,
+    DragDropModule,
     ObserversModule,
     // OverlayModule,
     PlatformModule,

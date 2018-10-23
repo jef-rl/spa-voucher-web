@@ -1,3 +1,4 @@
+import { UserAccount } from './_shared/models/user-account.model';
 import {
   BreakpointObserver,
   Breakpoints,
@@ -12,6 +13,7 @@ import {
   query
 } from '@angular/animations';
 import { UserService } from './_shared/services/user.service';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -20,7 +22,7 @@ import { UserService } from './_shared/services/user.service';
 })
 export class AppComponent {
   title = 'spa-voucher-web';
-  navLinks = [
+  stdLinks = [
     {
       path: '/shop',
       label: 'Buy Voucher',
@@ -42,10 +44,22 @@ export class AppComponent {
       xsicon: 'account_circle'
     }
   ];
+  adminLinks = [
+    {
+      path: '/dashboard',
+      label: 'Dashboard',
+      xsicon: 'settings'
+    }
+  ];
+  navLinks;
+
   activeLink = null;
   acctime;
   screenSize;
-  constructor(private breakpointObserver: BreakpointObserver, private userService: UserService) {
+  constructor(
+    private breakpointObserver: BreakpointObserver,
+    private userService: UserService
+  ) {
     const watchSizes = [
       Breakpoints.XSmall,
       Breakpoints.Small,
@@ -70,5 +84,18 @@ export class AppComponent {
         this.screenSize = 'xl';
       }
     });
+    this.navLinks = this.stdLinks;
+    const watchUser = userService
+      .getUser()
+      .pipe(
+        tap((user: UserAccount) => {
+          if (user && user.isAdmin) {
+            this.navLinks = [...this.stdLinks, ...this.adminLinks];
+          } else {
+            this.navLinks = this.stdLinks;
+          }
+        })
+      )
+      .subscribe();
   }
 }

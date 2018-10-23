@@ -1,3 +1,4 @@
+import { AdministratorGuard } from './_shared/services/administrator.guard';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
@@ -23,6 +24,11 @@ const routes: Routes = [
     loadChildren: './venue/venue.module#VenueModule'
   },
   {
+    path: 'dashboard',
+    loadChildren: './dashboard/dashboard.module#DashboardModule',
+    canLoad: [AdministratorGuard]
+  },
+  {
     path: '**',
     loadChildren: './home/home.module#HomeModule'
   }
@@ -32,7 +38,7 @@ const routes: Routes = [
   imports: [
     RouterModule.forRoot(routes, {
       enableTracing: false
-    }),
+    })
   ],
   exports: [RouterModule]
 })

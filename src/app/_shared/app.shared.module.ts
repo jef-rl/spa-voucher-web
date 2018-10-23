@@ -1,3 +1,4 @@
+import { TaskService } from './services/dashboard/task.service';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { AppMaterialModule } from './../app.material.module';
@@ -30,6 +31,6 @@ const APP_COMPONENTS = [
   imports: [CommonModule, AppMaterialModule, PipesModule],
   exports: APP_COMPONENTS,
   declarations: APP_COMPONENTS,
-  providers: [UserService, NewsService]
+  providers: [UserService, NewsService, TaskService]
 })
 export class AppSharedModule {}

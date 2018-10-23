@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Voucher } from '../models/shop.model';
+import { Voucher } from '../models/voucher.model';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/firestore';
 

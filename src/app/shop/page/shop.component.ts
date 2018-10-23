@@ -1,7 +1,7 @@
 import { ShopService } from '../../_shared/services/shop.service';
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Voucher } from '../../_shared/models/shop.model';
+import { Voucher } from '../../_shared/models/voucher.model';
 
 @Component({
   selector: 'shop-page',

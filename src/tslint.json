@@ -10,7 +10,7 @@
     "component-selector": [
       true,
       "element",
-      ["app", "ui" , "home", "voucher", "account", "news", "booking", "search", "shop", "order", "venue"],
+      ["app", "ui" , "home", "voucher", "account", "news", "booking", "search", "shop", "order", "venue", "dashboard"],
       "kebab-case"
     ]
   }

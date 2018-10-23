@@ -7,4 +7,6 @@ export interface UserAccount {
   uid: string;
   address: string;
   name: string;
+  isAdmin?: boolean;
+  hasRole?: 'full' | 'lead' | 'user';
 }

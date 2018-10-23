@@ -5,6 +5,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { UserInfo, User, auth } from 'firebase/app';
 import { tap } from 'rxjs/operators';
 import { UserAccount } from '../models/user-account.model';
+import { Signed } from '../models/dashboard/signed.model';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,8 @@ export class UserService {
   private bookings$ = new BehaviorSubject<any[]>(null);
   private vouchers$ = new BehaviorSubject<any[]>(null);
   private available$ = new BehaviorSubject<boolean>(null);
+  private administrator = false;
+  private userId = null;
   constructor(private afAuth: AngularFireAuth, private afs: AngularFirestore) {
     this.afAuth.user
       .pipe(
@@ -23,6 +26,13 @@ export class UserService {
             const userDoc$ = this.afs.doc('user/' + user.uid).valueChanges();
             userDoc$.subscribe((userAccount: any) => {
               if (userAccount !== undefined) {
+                if (userAccount.isAdmin) {
+                  this.administrator = true;
+                  this.userId = userAccount.uid;
+                } else {
+                  this.administrator = false;
+                  this.userId = null;
+                }
                 const bookingsSub = this.afs
                   .collection('booking', ref =>
                     ref.where('email', '==', userAccount.email)
@@ -86,11 +96,17 @@ export class UserService {
   isAvailable() {
     return this.available$;
   }
-
+  isAdministrator() {
+    return this.administrator;
+  }
   getUser() {
     return this.user$;
   }
-
+  getUserSigned(): Signed {
+    return this.userId
+      ? { signedOn: new Date(), signedUid: this.userId }
+      : null;
+  }
   getBookings() {
     return this.bookings$;
   }
