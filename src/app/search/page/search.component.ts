@@ -15,15 +15,15 @@ import { AutofillMonitor } from '@angular/cdk/text-field';
   styleUrls: ['./search.component.scss'],
   animations: [
     trigger('animateSearch', [
-      state('start', style({ transform: 'scale(1)', margin: '50px 0px' })),
+      state('start', style({ transform: 'scale(1)', margin: '0px 0px' })),
       transition('void => *', [
-        style({ transform: 'scale(5)', margin: '150px 0px' }),
+        style({ transform: 'scale(2)', margin: '100px 0px' }),
         animate(
           '10000ms',
           keyframes([
-            style({ transform: 'scale(5)', margin: '150px 0px', offset: 0.0 }),
-            style({ transform: 'scale(1)', margin: '150px 0px', offset: 0.05 }),
-            style({ transform: 'scale(1)', margin: '150px 0px', offset: 0.9 }),
+            style({ transform: 'scale(5)', margin: '100px 0px', offset: 0.0 }),
+            style({ transform: 'scale(1)', margin: '100px 0px', offset: 0.5 }),
+            style({ transform: 'scale(1)', margin: '100px 0px', offset: 0.9 }),
             style({ transform: 'scale(1)', margin: '0px 0px', offset: 1 })
           ])
         )

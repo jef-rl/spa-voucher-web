@@ -5,6 +5,7 @@ export interface Task {
   ownerUid: string | 'system';
   forKind: string;
   forId: string;
+  title: string;
   created: Date;
   deadline: Date;
   closed: Signed;
@@ -28,6 +29,11 @@ export function NewTask(initTask: Partial<Task>): Task {
     ownerUid: null,
     forKind: initTask.forKind ? initTask.forKind : 'error',
     forId: initTask.forId ? initTask.forId : 'error',
+    title: initTask.title
+      ? initTask.title
+      : initTask.forKind && initTask.forId
+        ? initTask.forKind + ' ' + initTask.forId
+        : 'error',
     created: new Date(),
     deadline: initTask.deadline ? initTask.deadline : new Date(),
     closed: null,

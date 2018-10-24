@@ -14,6 +14,9 @@ import { UserService } from './services/user.service';
 import { NewsService } from './services/news.service';
 import { HeadlineTileComponent } from './components/headline-tile/headline-tile.component';
 import { HomeArticleTileComponent } from './components/home-article-tile/home-article-tile.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { EditTaskComponent } from './forms/task/task.component';
+import { EditProcessComponent } from './forms/process/process.component';
 
 const APP_COMPONENTS = [
   HomeArticleTileComponent,
@@ -27,10 +30,18 @@ const APP_COMPONENTS = [
   BannerComponent
 ];
 
+const EDIT_COMPONENTS = [EditTaskComponent, EditProcessComponent];
+
 @NgModule({
-  imports: [CommonModule, AppMaterialModule, PipesModule],
-  exports: APP_COMPONENTS,
-  declarations: APP_COMPONENTS,
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    AppMaterialModule,
+    PipesModule
+  ],
+  exports: [APP_COMPONENTS, EDIT_COMPONENTS],
+  declarations: [APP_COMPONENTS, EDIT_COMPONENTS],
   providers: [UserService, NewsService, TaskService]
 })
 export class AppSharedModule {}

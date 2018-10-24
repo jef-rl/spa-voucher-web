@@ -6,6 +6,7 @@ import {
 import { Injectable } from '@angular/core';
 import { Task, NewTask } from '../../models/dashboard/task.model';
 import { tap } from 'rxjs/operators';
+import { Process } from '../../models/dashboard/process.model';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,9 @@ import { tap } from 'rxjs/operators';
 export class TaskService {
   private taskId$: BehaviorSubject<string> = new BehaviorSubject(null);
   private task$: BehaviorSubject<Task> = new BehaviorSubject(null);
+  private process$: BehaviorSubject<Process[]> = new BehaviorSubject(null);
   private taskDocumentRef: AngularFirestoreDocument;
+  private tasks$: BehaviorSubject<Task[]> = new BehaviorSubject(null);
   constructor(private afs: AngularFirestore) {
     const watchTaskId = this.taskId$
       .pipe(
@@ -34,6 +37,17 @@ export class TaskService {
         })
       )
       .subscribe();
+      const watchTasks = this.afs.collection('task').valueChanges()
+      .pipe(
+        tap((tasks: Task[]) => {
+          if (tasks) {
+            this.tasks$.next(tasks);
+          } else {
+            this.tasks$.next(null);
+          }
+        })
+      )
+      .subscribe();
   }
   New(forKind: string, forId: string, deadline: Date): void {
     const newTask = NewTask({ id: forId, forKind, forId, deadline });
@@ -41,14 +55,11 @@ export class TaskService {
       .collection('task')
       .doc(forId)
       .set(newTask)
-      .then(() => {
-        this.taskId$.next(forId);
-      })
       .catch(err => {
         console.log(err);
       });
   }
-  Get(selectTask: string | Partial<Task>): void {
+  Select(selectTask: string | Partial<Task>): void {
     if (
       (selectTask && typeof selectTask === 'string') ||
       (selectTask && selectTask['id'])
@@ -66,5 +77,8 @@ export class TaskService {
   }
   Task() {
     return this.task$;
+  }
+  Tasks() {
+    return this.tasks$;
   }
 }

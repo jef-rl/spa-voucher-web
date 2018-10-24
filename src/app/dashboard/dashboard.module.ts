@@ -5,6 +5,7 @@ import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardPageComponent } from './page/dashboard.component';
 import { AppSharedModule } from '../_shared/app.shared.module';
 import { PipesModule } from '../_shared/pipes/pipes.module';
+import { ProcessService } from '../_shared/services/dashboard/process.service';
 import { AppMaterialModule } from '../app.material.module';
 
 @NgModule({
@@ -18,6 +19,6 @@ import { AppMaterialModule } from '../app.material.module';
     DashboardRoutingModule
   ],
   declarations: [DashboardPageComponent],
-  providers: []
+  providers: [ProcessService]
 })
 export class DashboardModule {}
