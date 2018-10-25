@@ -19,7 +19,8 @@ export const taskDefinitionBooking: TaskDefinition = {
         short: 'contact spa',
         full: ''
       },
-      priority: 'high'
+      priority: 'high',
+      reminder: [1, 2, 3, -1]
     },
     {
       description: {
