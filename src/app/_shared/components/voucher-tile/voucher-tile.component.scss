@@ -1,3 +1,9 @@
+:host {
+  max-width: 600px;
+  display: flex;
+  margin: auto;
+}
+
 div[spa-voucher-voucher-tile] {
   display: grid;
   grid-template-columns: 80px minmax(140px, 440px) 80px;
@@ -6,12 +12,13 @@ div[spa-voucher-voucher-tile] {
   padding: 8px;
   border: 1px solid rgba(0, 0, 0, .35);
 }
+
 :host-context(.first) div[spa-voucher-voucher-tile] {
-border-top:none;
+  border-top: none;
 }
 
 div[month] {
-  grid-column: 3;
+  grid-column: 1;
   grid-row: 1 / 2;
   display: grid;
   font: 300 12px/20px Raleway, sans-serif;
@@ -20,7 +27,7 @@ div[month] {
 }
 
 div[day] {
-  grid-column: 3;
+  grid-column: 1;
   grid-row: 2 / 3;
   display: grid;
   font: 600 30px/32px Raleway, sans-serif;
@@ -29,7 +36,7 @@ div[day] {
 }
 
 div[year] {
-  grid-column: 3;
+  grid-column: 1;
   grid-row: 3 / 4;
   display: grid;
   font: 300 12px/20px Raleway, sans-serif;
@@ -56,7 +63,7 @@ div[code] {
 }
 
 div[price] {
-  grid-column: 1;
+  grid-column: 3;
   grid-row: 1 / 4;
   display: grid;
   justify-items: center;

@@ -6,6 +6,7 @@ import {
 import { BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { Process, NewProcess } from '../../models/dashboard/process.model';
+import { Task } from '../../models/dashboard/task.model';
 
 @Injectable({
   providedIn: 'root'
@@ -37,7 +38,16 @@ export class ProcessService {
       )
       .subscribe();
   }
-  New(initProcess: Partial<Process>): void {
+  New(initProcess: Partial<Process>, forTask?: Partial<Task>): void {
+    if (initProcess && !initProcess.id) {
+      initProcess.id = this.afs.createId();
+    }
+    if (forTask) {
+      initProcess.taskId = forTask.id;
+      initProcess.ownerUid = initProcess.ownerUid
+        ? initProcess.ownerUid
+        : forTask.ownerUid;
+    }
     const newProcess = NewProcess(initProcess);
     this.afs
       .collection('process')
@@ -52,7 +62,9 @@ export class ProcessService {
       (selectProcess && typeof selectProcess === 'string') ||
       (selectProcess && selectProcess['id'])
     ) {
-      const processId = selectProcess['id'] ? selectProcess['id'] : selectProcess;
+      const processId = selectProcess['id']
+        ? selectProcess['id']
+        : selectProcess;
 
       this.processId$.next(processId);
     }

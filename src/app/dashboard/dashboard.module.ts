@@ -7,6 +7,8 @@ import { AppSharedModule } from '../_shared/app.shared.module';
 import { PipesModule } from '../_shared/pipes/pipes.module';
 import { ProcessService } from '../_shared/services/dashboard/process.service';
 import { AppMaterialModule } from '../app.material.module';
+import { DashboardTasksComponent } from './tasks/tasks.component';
+import { TaskPageComponent } from './page/task/task.component';
 
 @NgModule({
   imports: [
@@ -18,7 +20,11 @@ import { AppMaterialModule } from '../app.material.module';
     AppSharedModule,
     DashboardRoutingModule
   ],
-  declarations: [DashboardPageComponent],
+  declarations: [
+    DashboardPageComponent,
+    DashboardTasksComponent,
+    TaskPageComponent
+  ],
   providers: [ProcessService]
 })
 export class DashboardModule {}

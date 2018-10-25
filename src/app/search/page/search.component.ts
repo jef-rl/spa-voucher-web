@@ -22,7 +22,7 @@ import { AutofillMonitor } from '@angular/cdk/text-field';
           '10000ms',
           keyframes([
             style({ transform: 'scale(5)', margin: '100px 0px', offset: 0.0 }),
-            style({ transform: 'scale(1)', margin: '100px 0px', offset: 0.5 }),
+            style({ transform: 'scale(1)', margin: '100px 0px', offset: 0.1 }),
             style({ transform: 'scale(1)', margin: '100px 0px', offset: 0.9 }),
             style({ transform: 'scale(1)', margin: '0px 0px', offset: 1 })
           ])

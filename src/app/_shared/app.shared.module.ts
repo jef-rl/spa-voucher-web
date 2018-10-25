@@ -1,3 +1,4 @@
+import { ProcessService } from './services/dashboard/process.service';
 import { TaskService } from './services/dashboard/task.service';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
@@ -17,8 +18,11 @@ import { HomeArticleTileComponent } from './components/home-article-tile/home-ar
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EditTaskComponent } from './forms/task/task.component';
 import { EditProcessComponent } from './forms/process/process.component';
+import { TaskTileComponent } from './components/task-tile/task-tile.component';
+import { UIDateComponent } from './components/date-ui/date-ui.component';
 
 const APP_COMPONENTS = [
+  UIDateComponent,
   HomeArticleTileComponent,
   ArticleTileComponent,
   HeadlineTileComponent,
@@ -27,7 +31,8 @@ const APP_COMPONENTS = [
   VoucherTileComponent,
   OrderTileComponent,
   TitleComponent,
-  BannerComponent
+  BannerComponent,
+  TaskTileComponent,
 ];
 
 const EDIT_COMPONENTS = [EditTaskComponent, EditProcessComponent];
@@ -42,6 +47,6 @@ const EDIT_COMPONENTS = [EditTaskComponent, EditProcessComponent];
   ],
   exports: [APP_COMPONENTS, EDIT_COMPONENTS],
   declarations: [APP_COMPONENTS, EDIT_COMPONENTS],
-  providers: [UserService, NewsService, TaskService]
+  providers: [UserService, NewsService, TaskService, ProcessService]
 })
 export class AppSharedModule {}

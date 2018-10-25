@@ -1,3 +1,4 @@
+import { taskDefinitionBooking } from './../processes/booking.processes';
 import { UserService } from './user.service';
 import { VenueBooking } from '../models/booking.model';
 import { AngularFireAuth } from '@angular/fire/auth';
@@ -95,6 +96,7 @@ export class VenueBookingService {
     this.Validate();
     if (this.venueBooking.valid) {
       if (this.venueBooking.id === null) {
+        const TaskProcesses = taskDefinitionBooking;
         const bookingId = this.afs.createId();
         this.venueBooking.id = bookingId;
         this.venueBooking.submitted = new Date();
@@ -102,7 +104,16 @@ export class VenueBookingService {
           .doc('booking/' + bookingId)
           .set(this.venueBooking)
           .then(venueBooking => {
-            this.taskService.New('booking', bookingId, this.venueBooking.date);
+            this.taskService.New(
+              {
+                ...taskDefinitionBooking.task,
+                id: bookingId,
+                forKind: 'booking',
+                forId: bookingId,
+                deadline: this.venueBooking.date
+              },
+              taskDefinitionBooking.processes
+            );
             this.venueBooking$.next(this.venueBooking);
           });
       } else {

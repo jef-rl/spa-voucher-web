@@ -83,3 +83,25 @@ div[action] {
   justify-items: center;
   align-items: center;
 }
+
+mat-label {
+  color: rgba(0, 0, 0, 0.54);
+  cursor: default;
+  display: block;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-size: 14px;
+  font-stretch: 100%;
+  font-style: normal;
+  font-variant-caps: normal;
+  font-weight: 400;
+  height: 15px;
+  line-height: 15.75px;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  pointer-events: none;
+  text-align: left;
+  text-overflow: ellipsis;
+  transform: matrix3d(0.75, 0, 0, 0, 0, 0.75, 0, 0, 0, 0.179375, 1, -0.01, 0, 0, 0.001, 0.99999);
+  transform-origin: 0px 0px;
+  white-space: nowrap;
+}

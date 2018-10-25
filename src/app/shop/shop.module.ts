@@ -12,8 +12,11 @@ import { PipesModule } from '../_shared/pipes/pipes.module';
 import { AppMaterialModule } from '../app.material.module';
 import { PaymentService } from '../_shared/services/payment.service';
 import { HttpClientModule } from '@angular/common/http';
+import { MAT_DATE_LOCALE } from '@angular/material';
+import { ShopCalenderComponent } from './voucher/calender/calender.component';
 
 const SHOP_COMPONENTS = [
+  ShopCalenderComponent,
   ShopVoucherComponent,
   ShopVouchersComponent,
   ShopPaymentComponent,
@@ -32,6 +35,10 @@ const SHOP_COMPONENTS = [
     ShopRoutingModule
   ],
   declarations: SHOP_COMPONENTS,
-  providers: [ShopService, PaymentService]
+  providers: [
+    ShopService,
+    PaymentService,
+    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }
+  ]
 })
 export class ShopModule {}

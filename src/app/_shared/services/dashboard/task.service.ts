@@ -5,8 +5,9 @@ import {
 } from '@angular/fire/firestore';
 import { Injectable } from '@angular/core';
 import { Task, NewTask } from '../../models/dashboard/task.model';
-import { tap } from 'rxjs/operators';
+import { tap, take, map } from 'rxjs/operators';
 import { Process } from '../../models/dashboard/process.model';
+import { ProcessService } from './process.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,10 +15,15 @@ import { Process } from '../../models/dashboard/process.model';
 export class TaskService {
   private taskId$: BehaviorSubject<string> = new BehaviorSubject(null);
   private task$: BehaviorSubject<Task> = new BehaviorSubject(null);
-  private process$: BehaviorSubject<Process[]> = new BehaviorSubject(null);
+  private process$: BehaviorSubject<Partial<Process>[]> = new BehaviorSubject(
+    null
+  );
   private taskDocumentRef: AngularFirestoreDocument;
   private tasks$: BehaviorSubject<Task[]> = new BehaviorSubject(null);
-  constructor(private afs: AngularFirestore) {
+  constructor(
+    private afs: AngularFirestore,
+    private processService: ProcessService
+  ) {
     const watchTaskId = this.taskId$
       .pipe(
         tap((taskId: string) => {
@@ -27,7 +33,32 @@ export class TaskService {
               .valueChanges()
               .pipe(
                 tap((taskDoc: Task) => {
-                  this.task$.next(taskDoc);
+                  if (taskDoc.forKind === 'booking') {
+                    this.task$.next({
+                      ...taskDoc,
+                      forDoc: this.afs
+                        .doc('booking/' + taskDoc.id)
+                        .valueChanges()
+                        .pipe(map(rtn => rtn))
+                    });
+                  } else if (taskDoc.forKind === 'voucher') {
+                    this.task$.next({
+                      ...taskDoc,
+                      forDoc: this.afs
+                        .doc('voucher/' + taskDoc.id)
+                        .valueChanges()
+                        .pipe(map(rtn => rtn))
+                    });
+                  }
+                })
+              )
+              .subscribe();
+            const p$ = this.afs
+              .collection('process')
+              .valueChanges()
+              .pipe(
+                tap((processes: Partial<Process>[]) => {
+                  this.process$.next(processes);
                 })
               )
               .subscribe();
@@ -37,11 +68,32 @@ export class TaskService {
         })
       )
       .subscribe();
-      const watchTasks = this.afs.collection('task').valueChanges()
+    const watchTasks = this.afs
+      .collection('task', ref => ref.orderBy('created', 'asc'))
+      .valueChanges()
       .pipe(
         tap((tasks: Task[]) => {
-          if (tasks) {
-            this.tasks$.next(tasks);
+          if (tasks && tasks.length && tasks.length > 0) {
+            const tasksMap = tasks.map(task => {
+              if (task.forKind === 'booking') {
+                return {
+                  ...task,
+                  forDoc: this.afs
+                    .doc('booking/' + task.id)
+                    .valueChanges()
+                    .pipe(map(rtn => rtn))
+                };
+              } else if (task.forKind === 'voucher') {
+                return {
+                  ...task,
+                  forDoc: this.afs
+                    .doc('voucher/' + task.id)
+                    .valueChanges()
+                    .pipe(map(rtn => rtn))
+                };
+              }
+            });
+            this.tasks$.next(tasksMap);
           } else {
             this.tasks$.next(null);
           }
@@ -49,12 +101,26 @@ export class TaskService {
       )
       .subscribe();
   }
-  New(forKind: string, forId: string, deadline: Date): void {
-    const newTask = NewTask({ id: forId, forKind, forId, deadline });
+  New(initTask: Partial<Task>, initProcesses?: Partial<Process>[]): void {
+    const newTask = NewTask(initTask);
     this.afs
       .collection('task')
-      .doc(forId)
+      .doc(newTask.id)
       .set(newTask)
+      .then(() => {
+        if (initProcesses && Array.isArray(initProcesses)) {
+          for (
+            let processIdx = 0;
+            processIdx < initProcesses.length;
+            processIdx++
+          ) {
+            const process = this.processService.New(
+              initProcesses[processIdx],
+              newTask
+            );
+          }
+        }
+      })
       .catch(err => {
         console.log(err);
       });
@@ -80,5 +146,19 @@ export class TaskService {
   }
   Tasks() {
     return this.tasks$;
+  }
+  AddProcess(initProcess: Partial<Process>) {
+    this.taskDocumentRef
+      .valueChanges()
+      .pipe(
+        take(1),
+        tap(task => {
+          this.processService.New(initProcess, task);
+        })
+      )
+      .subscribe();
+  }
+  TaskProcesses() {
+    return this.process$;
   }
 }

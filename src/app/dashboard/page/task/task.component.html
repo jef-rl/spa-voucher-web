@@ -1,0 +1,3 @@
+<ng-container *ngIf="(task$ | async) as task">
+    <dashboard-task-tile [task]="task"></dashboard-task-tile>
+</ng-container>

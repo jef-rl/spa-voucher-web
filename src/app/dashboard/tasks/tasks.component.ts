@@ -16,4 +16,7 @@ export class DashboardTasksComponent implements OnInit {
   }
 
   ngOnInit() {}
+  Select(id) {
+    this.taskService.Select(id);
+  }
 }

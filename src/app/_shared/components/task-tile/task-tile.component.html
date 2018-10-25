@@ -1,0 +1,65 @@
+<div spa-voucher-task [ngClass]="task.forKind">
+  <div taskKind arrow></div>
+  <div taskKind>
+    <ng-container *ngIf="task.forKind==='booking'">
+      <div>booking</div>
+    </ng-container>
+    <ng-container *ngIf="task.forKind==='voucher'">
+      <div>voucher</div>
+    </ng-container>
+  </div>
+  <div taskTitle>
+    <div>{{task?.title}}</div>
+  </div>
+  <div taskPriorities>
+    <div></div>
+  </div>
+  <div criticals>
+    <div lbl>CRITICAL</div>
+    <div>{{task?.processes?.criticals}}</div>
+  </div>
+  <div urgents>
+    <div lbl>URGENT</div>
+    <div>{{task?.processes?.urgents}}</div>
+  </div>
+  <div highs>
+    <div lbl>HIGH</div>
+    <div>{{task?.processes?.highs}}</div>
+  </div>
+  <div mediums>
+    <div lbl>MEDIUM</div>
+    <div>{{task?.processes?.mediums}}</div>
+  </div>
+  <div lows>
+    <div lbl>LOW</div>
+    <div>{{task?.processes?.lows}}</div>
+  </div>
+  <div optionals>
+    <div lbl>OPTIONAL</div>
+    <div>{{task?.processes?.optionals}}</div>
+  </div>
+  <div taskTotals>
+    <div></div>
+  </div>
+  <div completed>
+    <div lbl>COMPLETED</div>
+    <div>{{task?.processes?.completed}}</div>
+  </div>
+  <div required>
+    <div lbl>REQUIRED</div>
+    <div>{{task?.processes?.required}}</div>
+  </div>
+  <div for>
+    <div>
+      <ng-container *ngIf="task?.forDoc | async as taskFor">
+        <ng-container *ngIf="task.forKind==='booking'">
+          <booking-tile [booking]="taskFor"></booking-tile>
+        </ng-container>
+        <ng-container *ngIf="task.forKind==='voucher'">
+          <voucher-tile [voucher]="taskFor"></voucher-tile>
+        </ng-container>
+      </ng-container>
+    </div>
+    <div lbl>PROCESSES</div>
+  </div>
+</div>

@@ -1,8 +1,8 @@
 <div spa-voucher-shop-item>
   <div type>
-      <div title [class.active]="voucherType==='electronic'" (click)="voucherType='electronic'"> e Voucher </div>
-      <div title [class.active]="voucherType==='gift'" (click)="voucherType='gift'"> Gift Voucher </div>
-      <div title [class.active]="voucherType==='box'" (click)="voucherType='box'"> Gift Box </div>
+    <div title [class.active]="voucherType==='electronic'" (click)="voucherType='electronic'"> e Voucher </div>
+    <div title [class.active]="voucherType==='gift'" (click)="voucherType='gift'"> Gift Voucher </div>
+    <div title [class.active]="voucherType==='box'" (click)="voucherType='box'"> Gift Box </div>
   </div>
   <div description>
     <div>
@@ -24,21 +24,20 @@
     </div>
   </div>
   <div recipient>
-      <mat-form-field>
-        <input matInput placeholder="Recipient Name" type="text" class="form-control" id="name" [(ngModel)]="name" /> </mat-form-field>
-      <mat-form-field>
-        <input matInput placeholder="Recipient Email" type="email" class="form-control" id="email" [(ngModel)]="email" /> </mat-form-field>
-      <!-- <mat-form-field color="primary">
-          <input matInput [min]="minDate" [max]="maxDate" placeholder="Recipient Date" [matDatepicker]="recipientdate" class="form-control" id="rd" [value]="rdate" (dateInput)="rdate=$event.value" (dateChange)="rdate=$event.value">
-          <mat-datepicker-toggle matSuffix [for]="recipientdate"></mat-datepicker-toggle>
-          <mat-datepicker #recipientdate color="accent"></mat-datepicker>
-        </mat-form-field> -->
-      <mat-form-field>
-        <input matInput [disabled]="voucherType==='electronic'" placeholder="Recipient Address" type="text" class="form-control" id="addr" [(ngModel)]="address" />
-      </mat-form-field>
-      <mat-form-field>
-        <input matInput placeholder="Recipient Message" type="text" class="form-control" id="message" [(ngModel)]="message" />
-      </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Recipient Name" type="text" class="form-control" id="name" [(ngModel)]="name" /> </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Recipient Email" type="email" class="form-control" id="email" [(ngModel)]="email" /> </mat-form-field>
+    <mat-form-field>
+      <input matInput [disabled]="voucherType==='electronic'" placeholder="Recipient Address" type="text" class="form-control" id="addr" [(ngModel)]="address" />
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Recipient Message" type="text" class="form-control" id="message" [(ngModel)]="message" />
+    </mat-form-field>
+      <mat-label>Recipient Date</mat-label>
+    <ng-container *ngIf="recipientDate">
+      <shop-calender [selectedDate]="recipientDate" (dateSelected)="recipientDate=$event"></shop-calender>
+    </ng-container>
   </div>
   <div value>
     <div>

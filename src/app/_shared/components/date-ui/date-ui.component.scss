@@ -1,0 +1,25 @@
+:host {
+  padding:5px 0;
+}
+
+div[month] {
+  display: grid;
+  font: 300 12px/20px Raleway, sans-serif;
+  justify-items: center;
+  align-items: center;
+}
+
+div[day] {
+  display: grid;
+  font: 600 30px/32px Raleway, sans-serif;
+  justify-items: center;
+  align-items: center;
+  padding: 0 5px;
+}
+
+div[year] {
+  display: grid;
+  font: 300 12px/20px Raleway, sans-serif;
+  justify-items: center;
+  align-items: center;
+}

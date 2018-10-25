@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Voucher } from '../models/voucher.model';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { TaskService } from './dashboard/task.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class ShopService {
   private amount$: BehaviorSubject<number> = new BehaviorSubject(null);
   private items: Voucher[] = [];
   private items$: BehaviorSubject<Voucher[]> = new BehaviorSubject([]);
-  constructor(private afs: AngularFirestore) {
+  constructor(private afs: AngularFirestore, private taskService: TaskService) {
     this.orderNew();
   }
 
@@ -62,10 +63,19 @@ export class ShopService {
     for (let index = 0; index < this.items.length; index++) {
       const element = this.items[index];
       const vid = element.voucherCode;
+      const voucherDocId = this.id + ' ' + vid;
       this.afs
         .collection('voucher')
-        .doc(this.id + ' ' + vid)
-        .update({ payment: paymentId });
+        .doc(voucherDocId)
+        .update({ payment: paymentId })
+        .then(() => {
+          this.taskService.New({
+            id: voucherDocId,
+            forKind: 'voucher',
+            forId: voucherDocId,
+            created: element.recipientDate ? element.recipientDate : new Date()
+          });
+        });
     }
     this.paid$.next(true);
   }

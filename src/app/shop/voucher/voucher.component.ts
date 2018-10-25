@@ -1,6 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { addDays } from '../../_shared/services/booking-days.service';
 import { ShopService } from '../../_shared/services/shop.service';
+import { FormControl } from '@angular/forms';
 
 const today = new Date();
 
@@ -15,13 +16,21 @@ export class ShopVoucherComponent implements OnInit {
   // name = 'Jef Richards';
   // message = 'This is a message';
   // amount = 5000;
-  rdate = new Date();
   minDate = today;
   maxDate = addDays(today, 60);
   address = '';
   email = '';
   name = '';
   message = '';
+  recipientDate = new Date(
+    today.getUTCFullYear(),
+    today.getUTCMonth(),
+    today.getUTCDate(),
+    -(today.getTimezoneOffset() / 60),
+    0,
+    0,
+    0
+  );
   amount = 5000;
   amounts = [
     2000,
@@ -41,9 +50,7 @@ export class ShopVoucherComponent implements OnInit {
     40000,
     50000
   ];
-  constructor(
-    private shopService: ShopService
-  ) {}
+  constructor(private shopService: ShopService) {}
 
   ngOnInit() {}
   restartVoucher() {
@@ -52,14 +59,15 @@ export class ShopVoucherComponent implements OnInit {
     // name = 'Jef Richards';
     // message = 'This is a message';
     // amount = 5000;
-    this.rdate = new Date();
     this.minDate = today;
     this.maxDate = addDays(today, 60);
     this.address = '';
     this.email = '';
     this.name = '';
+    this.recipientDate = new Date();
     this.message = '';
-    this.amount = 5000;  }
+    this.amount = 5000;
+  }
   addVoucher() {
     const mths = ['1', 'F', '3', 'A', 'M', 'J', '7', '8', 'S', 'O', 'N', 'D'];
     const mt = mths[today.getMonth()];
@@ -83,7 +91,7 @@ export class ShopVoucherComponent implements OnInit {
       recipientName: this.name,
       recipientEmail: this.email,
       recipientMessage: this.message,
-      recipientDate: new Date(),
+      recipientDate: this.recipientDate,
       recipientAddress: this.address,
       voucherAmount: this.amount,
       optionalAmount:
@@ -93,7 +101,8 @@ export class ShopVoucherComponent implements OnInit {
             ? 799
             : 0,
       // voucherCode: mt + dy + hr + mn + ms,
-      voucherCode: new Date().valueOf()
+      voucherCode: new Date()
+        .valueOf()
         .toString(36)
         .toUpperCase(),
       voucherType: this.voucherType

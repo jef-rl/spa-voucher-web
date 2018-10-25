@@ -21,6 +21,7 @@ export interface Task {
     required: number;
     completed: number;
   };
+  forDoc?: any;
 }
 
 export function NewTask(initTask: Partial<Task>): Task {
@@ -34,12 +35,12 @@ export function NewTask(initTask: Partial<Task>): Task {
       : initTask.forKind && initTask.forId
         ? initTask.forKind + ' ' + initTask.forId
         : 'error',
-    created: new Date(),
-    deadline: initTask.deadline ? initTask.deadline : new Date(),
+    created: initTask.created ? initTask.created : new Date(),
+    deadline: initTask.deadline ? initTask.deadline : initTask.created ? initTask.created : new Date(),
     closed: null,
     approval: null,
     archiveOn: null,
-    processes: {
+    processes: initTask.processes ? initTask.processes :  {
       criticals: 0,
       urgents: 0,
       highs: 0,

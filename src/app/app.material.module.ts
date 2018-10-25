@@ -3,7 +3,7 @@ import {
   MatButtonModule,
   // MatBadgeModule,
   // MatCardModule,
-  // MatDatepickerModule,
+  MatDatepickerModule,
   MatDialogModule,
   // MatExpansionModule,
   MatFormFieldModule,
@@ -24,6 +24,7 @@ import {
   MatCheckboxModule,
   MatMenuModule,
   MatAutocompleteModule,
+  MAT_DATE_LOCALE
   // MatBottomSheetModule,
   // MatNativeDateModule,
   // MatTableModule,
@@ -37,11 +38,11 @@ import { PlatformModule } from '@angular/cdk/platform';
 import { ObserversModule } from '@angular/cdk/observers';
 // import { PortalModule } from '@angular/cdk/portal';
 import { LayoutModule } from '@angular/cdk/layout';
-// import { MatMomentDateModule } from '@angular/material-moment-adapter';
-import {DragDropModule} from '@angular/cdk/drag-drop';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 @NgModule({
   imports: [
-    // MatMomentDateModule,
+    MatMomentDateModule,
   ],
   exports: [
     // MatNativeDateModule,
@@ -55,7 +56,7 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
     // MatChipsModule,
     // MatTableModule,
     // MatTableModule,
-    // MatDatepickerModule,
+    MatDatepickerModule,
     MatDialogModule,
     // MatExpansionModule,
     MatFormFieldModule,
@@ -89,10 +90,11 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
     // OverlayModule,
     PlatformModule,
     // PortalModule,
-    LayoutModule,
+    LayoutModule
   ],
   providers: [
-    { provide: MAT_LABEL_GLOBAL_OPTIONS, useValue: { float: 'always' } }
+    { provide: MAT_LABEL_GLOBAL_OPTIONS, useValue: { float: 'always' } },
+    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }
   ]
 })
 export class AppMaterialModule {}
