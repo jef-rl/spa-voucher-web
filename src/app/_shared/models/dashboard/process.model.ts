@@ -1,7 +1,9 @@
 import { Signed } from './signed.model';
-import { isArray, isNullOrUndefined } from 'util';
+import { isArray, isNullOrUndefined, isNumber, isDate } from 'util';
 import {
-  DateCalculation
+  DateOffsetCalculation,
+  calculateDate,
+  isDateCalculation
 } from '../../queries/dateCalculation';
 
 export interface Activity {
@@ -19,7 +21,7 @@ export interface Process {
   priority: 'critical' | 'urgent' | 'high' | 'medium' | 'low' | 'optional';
   start: Date;
   end: Date;
-  reminder: Array<Date | DateCalculation | number>;
+  reminder: Array<Date | DateOffsetCalculation | number>;
   activity: Activity[];
   closed: Signed;
   accepted: Signed;
@@ -58,20 +60,29 @@ export function NewProcess(initProcess: Partial<Process>): Process {
       };
   rtnProcess.priority = initProcess.priority ? initProcess.priority : null;
 
-  rtnProcess.start = initProcess.start ? initProcess.start : new Date();
-  rtnProcess.end = initProcess.end
+  const start = rtnProcess.start = initProcess.start ? initProcess.start : new Date();
+  const end = rtnProcess.end = initProcess.end
     ? initProcess.end
     : initProcess.start
       ? initProcess.start
       : new Date();
 
   if (initProcess && initProcess.reminder && isArray(initProcess.reminder)) {
-    rtnProcess.reminder = initProcess.reminder.map(remind => {
-      if(isDateCalculation()) {
-
+    rtnProcess.reminder = initProcess.reminder.reduce((reminders, remind) => {
+      let rtn = null;
+      if (isDate(remind)) {
+        rtn = remind;
       }
-    }
-    );
+      if (isNumber(remind)) {
+        rtn =
+          remind >= 0
+            ? calculateDate({ date: start, offset: remind })
+            : calculateDate({ date: end, offset: remind });
+      } else if (isDateCalculation(remind)) {
+        rtn = calculateDate(remind);
+      }
+      return isNullOrUndefined(rtn) ? reminders : [...reminders, remind];
+    }, []);
   } else {
     rtnProcess.reminder = initProcess.reminder ? initProcess.reminder : [];
   }

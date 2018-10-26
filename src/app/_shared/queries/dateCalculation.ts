@@ -1,20 +1,19 @@
 import { addDays } from '../services/booking-days.service';
 import { isDate, isNumber } from 'util';
 
-export interface DateOffset
-export interface DateCalculation {
+export interface DateOffsetCalculation {
   date: Date;
   offset: number;
 }
-function isDateCalculation(
-  checkValue: DateCalculation | any
-): checkValue is DateCalculation {
+export function isDateCalculation(
+  checkValue: DateOffsetCalculation | any
+): checkValue is DateOffsetCalculation {
   return (
-    (<DateCalculation>checkValue).date !== undefined &&
-    (<DateCalculation>checkValue).offset !== undefined
+    (<DateOffsetCalculation>checkValue).date !== undefined &&
+    (<DateOffsetCalculation>checkValue).offset !== undefined
   );
 }
-export function calculateDate(init: Date | DateCalculation | number) {
+export function calculateDate(init: Date | DateOffsetCalculation | number) {
   init = init ? init : new Date();
   if (isDate(init)) {
   } else if (isNumber(init)) {
