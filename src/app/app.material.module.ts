@@ -1,4 +1,10 @@
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { LayoutModule } from '@angular/cdk/layout';
+import { ObserversModule } from '@angular/cdk/observers';
+import { PlatformModule } from '@angular/cdk/platform';
 import { NgModule } from '@angular/core';
+import { MatRippleModule } from '@angular/material';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import {
   MatButtonModule,
   // MatBadgeModule,
@@ -24,33 +30,26 @@ import {
   MatCheckboxModule,
   MatMenuModule,
   MatAutocompleteModule,
-  MAT_DATE_LOCALE
-  // MatBottomSheetModule,
+  MAT_DATE_LOCALE,
+  MatBottomSheetModule,
+  MAT_BOTTOM_SHEET_DEFAULT_OPTIONS
   // MatNativeDateModule,
   // MatTableModule,
   // MatSortModule
 } from '@angular/material';
-import { MatRippleModule } from '@angular/material';
 // import { A11yModule } from '@angular/cdk/a11y';
 // import { BidiModule } from '@angular/cdk/bidi';
 // import { OverlayModule } from '@angular/cdk/overlay';
-import { PlatformModule } from '@angular/cdk/platform';
-import { ObserversModule } from '@angular/cdk/observers';
 // import { PortalModule } from '@angular/cdk/portal';
-import { LayoutModule } from '@angular/cdk/layout';
-import { MatMomentDateModule } from '@angular/material-moment-adapter';
-import { DragDropModule } from '@angular/cdk/drag-drop';
 @NgModule({
-  imports: [
-    MatMomentDateModule,
-  ],
+  imports: [MatMomentDateModule],
   exports: [
     // MatNativeDateModule,
     MatAutocompleteModule,
     MatButtonModule,
     // MatButtonToggleModule,
     // MatBadgeModule,
-    // MatBottomSheetModule,
+    MatBottomSheetModule,
     // MatCardModule,
     MatCheckboxModule,
     // MatChipsModule,
@@ -94,7 +93,11 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
   ],
   providers: [
     { provide: MAT_LABEL_GLOBAL_OPTIONS, useValue: { float: 'always' } },
-    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }
+    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
+    {
+      provide: MAT_BOTTOM_SHEET_DEFAULT_OPTIONS,
+      useValue: { hasBackdrop: false, closeOnNavigation: true }
+    }
   ]
 })
 export class AppMaterialModule {}

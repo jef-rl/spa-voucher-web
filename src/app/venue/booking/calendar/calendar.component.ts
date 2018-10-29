@@ -2,9 +2,11 @@ import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import {
   addDays,
   CalendarMonth,
-  VenueBookingDaysService
+  VenueBookingDaysService,
+  startOfDay
 } from '../../../_shared/services/booking-days.service';
 
+const today = startOfDay();
 @Component({
   selector: 'venue-booking-calendar',
   templateUrl: './calendar.component.html',
@@ -20,13 +22,14 @@ export class VenueBookingCalendarComponent implements OnInit {
   @Output()
   valueSelected = new EventEmitter<number>();
 
-  idxMonth = 0;
-  nowDate = addDays(new Date(), 5);
+  nowDate = addDays(today, 5);
   calendar: CalendarMonth[];
   month: CalendarMonth;
+  idxMonth = 0;
   constructor(private days: VenueBookingDaysService) {}
 
   ngOnInit() {
+    this.idxMonth = this.nowDate.getUTCMonth() !== today.getUTCMonth() ? 1 : 0;
     this.calendar = this.days.getCalendar();
     this.month = this.calendar[this.idxMonth];
   }

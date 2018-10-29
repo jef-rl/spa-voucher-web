@@ -1,6 +1,6 @@
 <div spa-voucher-task [ngClass]="task.forKind">
   <div taskKind arrow></div>
-  <div taskKind>
+  <div taskKind [routerLink]="routerLnk">
     <ng-container *ngIf="task.forKind==='booking'">
       <div>booking</div>
     </ng-container>
@@ -8,10 +8,10 @@
       <div>voucher</div>
     </ng-container>
   </div>
-  <div taskTitle>
+  <div taskTitle [routerLink]="routerLnk">
     <div>{{task?.title}}</div>
   </div>
-  <div taskPriorities>
+  <div taskPriorities [routerLink]="routerLnk">
     <div></div>
   </div>
   <div criticals>
@@ -38,7 +38,7 @@
     <div lbl>OPTIONAL</div>
     <div>{{task?.processes?.optionals}}</div>
   </div>
-  <div taskTotals>
+  <div taskTotals [routerLink]="routerLnk">
     <div></div>
   </div>
   <div completed>
@@ -49,7 +49,7 @@
     <div lbl>REQUIRED</div>
     <div>{{task?.processes?.required}}</div>
   </div>
-  <div for>
+  <div for [routerLink]="routerLnk">
     <div>
       <ng-container *ngIf="task?.forDoc | async as taskFor">
         <ng-container *ngIf="task.forKind==='booking'">
@@ -61,5 +61,17 @@
       </ng-container>
     </div>
     <div lbl>PROCESSES</div>
+  </div>
+  <div taskOwner arrow></div>
+  <div taskOwner *ngIf="task.ownerUid">{{task.ownerId}}</div>
+  <div taskOwner *ngIf="!task.ownerUid && users && users.length && users.length>0" [matMenuTriggerFor]="usrList">
+    <div>
+      <mat-icon>person_outline</mat-icon>
+    </div>
+    <mat-menu #usrList="matMenu">
+      <div mat-menu-item *ngFor="let user of users" (click)="selectUser(user)">
+        <ui-user-tile [user]="user"></ui-user-tile>
+      </div>
+    </mat-menu>
   </div>
 </div>

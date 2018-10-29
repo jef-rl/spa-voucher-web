@@ -1,5 +1,21 @@
 import { Injectable } from '@angular/core';
 
+export function startOfDay(theDate?: Date) {
+  theDate = theDate ? theDate :  new Date();
+  const yr = theDate.getUTCFullYear();
+  const mth = theDate.getUTCMonth();
+  const dy = theDate.getUTCDate();
+  return new Date(
+    yr,
+    mth,
+    dy,
+    -(theDate.getTimezoneOffset() / 60),
+    0,
+    0,
+    0
+  );
+}
+
 export function addDays(theDate: Date, days): Date {
   return new Date(theDate.getTime() + days * 86400000);
 }

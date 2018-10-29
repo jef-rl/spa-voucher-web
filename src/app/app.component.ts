@@ -14,6 +14,7 @@ import {
 } from '@angular/animations';
 import { UserService } from './_shared/services/user.service';
 import { tap } from 'rxjs/operators';
+import { RedirectService } from './_shared/services/redirect.service';
 
 @Component({
   selector: 'app-root',
@@ -58,7 +59,8 @@ export class AppComponent {
   screenSize;
   constructor(
     private breakpointObserver: BreakpointObserver,
-    private userService: UserService
+    private userService: UserService,
+    private redirectService: RedirectService
   ) {
     const watchSizes = [
       Breakpoints.XSmall,

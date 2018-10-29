@@ -1,0 +1,21 @@
+[user] {
+  position: relative;
+  padding: 5px 5px 5px 55px;
+
+  img {
+    height: 35px;
+    width: 35px;
+    border-radius: 25px;
+    position: absolute;
+    left: 0px;
+    top:5px;
+  }
+  [name] {
+    display: block;
+    font: 300 14px/18px Raleway, sans-serif;
+  }
+  [email] {
+    display: block;
+    font: 300 12px/20px Raleway, sans-serif;
+  }
+}

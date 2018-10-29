@@ -2,7 +2,8 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import {
   addDays,
   CalendarMonth,
-  VenueBookingDaysService
+  VenueBookingDaysService,
+  startOfDay
 } from '../../../_shared/services/booking-days.service';
 
 @Component({
@@ -17,7 +18,7 @@ export class ShopCalenderComponent implements OnInit {
   dateSelected = new EventEmitter<Date>();
 
   idxMonth = 0;
-  nowDate = addDays(new Date(), -1);
+  nowDate = addDays(startOfDay(), -1);
   calendar: CalendarMonth[];
   month: CalendarMonth;
   constructor(private days: VenueBookingDaysService) {}

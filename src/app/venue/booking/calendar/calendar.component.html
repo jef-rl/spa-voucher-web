@@ -31,7 +31,7 @@
       <div days>
         <div offset *ngFor="let offsetEmpties of getMonthOffsetSpaces(month.offset)"> </div>
         <ng-container *ngFor="let day of month?.days; let index=index;">
-          <ng-container *ngIf="day>nowDate && selectedPackage?.pricing[(index+month.offset) % 7]; else elseTemplate">
+          <ng-container *ngIf="day>=nowDate && selectedPackage?.pricing[(index+month.offset) % 7]; else elseTemplate">
             <div day (click)="dateSelected.emit(day); valueSelected.emit(selectedPackage?.pricing[(index+month.offset) % 7]);selectedDate=day" [class.active]="day===selectedDate">
               <div day-of-month>{{day | date:'d'}}</div>
               <div price>£{{selectedPackage?.pricing[(index+month.offset) % 7] | number:'0.0-0'}}</div>

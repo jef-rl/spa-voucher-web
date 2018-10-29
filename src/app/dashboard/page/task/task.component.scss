@@ -1,0 +1,33 @@
+[process] {
+  display: flex;
+
+  ui-date {
+    display: none;
+  }
+
+}
+
+div[process] {
+  ui-date:first-of-type {
+    display: block !important;
+  }
+}
+
+div[admins] {
+  position: fixed;
+  bottom: 0px;
+  left: 0;
+  right: 0px;
+  border-top: 1px solid rgba(0, 0, 0, .35);
+  overflow-x: auto;
+  overflow-y: hidden;
+  display: flex;
+  flex-wrap: nowrap;
+  [ui-user-tile] {
+    position: relative;
+  }
+  [ui-user-tile]:not(:last-child) {
+    border-right: 1px solid rgba(0, 0, 0, .35);
+
+  }
+}

@@ -20,6 +20,7 @@ export class TaskService {
   );
   private taskDocumentRef: AngularFirestoreDocument;
   private tasks$: BehaviorSubject<Task[]> = new BehaviorSubject(null);
+  private taskId;
   constructor(
     private afs: AngularFirestore,
     private processService: ProcessService
@@ -54,11 +55,38 @@ export class TaskService {
               )
               .subscribe();
             const p$ = this.afs
-              .collection('process')
+              .collection('process', ref => ref.where('taskId', '==', taskId))
               .valueChanges()
               .pipe(
                 tap((processes: Partial<Process>[]) => {
-                  this.process$.next(processes);
+                  this.process$.next(
+                    processes.sort((a, b) => {
+                      if (!a.reminder && !b.reminder) {
+                        return 0;
+                      }
+                      if (!a.reminder && b.reminder && b.reminder[0]) {
+                        return -1;
+                      }
+                      if (a.reminder && b.reminder[0] && !b.reminder) {
+                        return 1;
+                      }
+                      if (
+                        a.reminder[0] &&
+                        b.reminder[0] &&
+                        a.reminder[0] < b.reminder[0]
+                      ) {
+                        return -1;
+                      }
+                      if (
+                        a.reminder[0] &&
+                        b.reminder[0] &&
+                        a.reminder[0] > b.reminder[0]
+                      ) {
+                        return 1;
+                      }
+                      return 0;
+                    })
+                  );
                 })
               )
               .subscribe();
@@ -131,7 +159,7 @@ export class TaskService {
       (selectTask && selectTask['id'])
     ) {
       const taskId = selectTask['id'] ? selectTask['id'] : selectTask;
-
+      this.taskId = taskId;
       this.taskId$.next(taskId);
     }
   }
@@ -139,6 +167,7 @@ export class TaskService {
     this.taskDocumentRef.update(changes);
   }
   Close() {
+    this.taskId = null;
     this.taskId$.next(null);
   }
   Task() {
@@ -160,5 +189,36 @@ export class TaskService {
   }
   TaskProcesses() {
     return this.process$;
+  }
+  assignOwner(user, task?) {
+    let tskId = task && task.id ? task.id : null;
+    if (!tskId) {
+      tskId = this.taskId;
+    }
+    if (user && user.uid) {
+      this.afs
+        .collection('task')
+        .doc(tskId)
+        .update({
+          ownerUid: user.uid
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
+  }
+  assignProcessOwner(user, process) {
+    console.log(user, process);
+    if (user && user.uid && process && process.id) {
+      this.afs
+        .collection('process')
+        .doc(process.id)
+        .update({
+          ownerUid: user.uid
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
   }
 }

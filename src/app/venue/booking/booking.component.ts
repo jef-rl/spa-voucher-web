@@ -1,8 +1,5 @@
 import { VenueBookingService } from '../../_shared/services/booking.service';
 import { Component, OnInit, Input } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
-import { AngularFireAuth } from '@angular/fire/auth';
-import { VenueBookingDaysService, addDays } from '../../_shared/services/booking-days.service';
 import { Observable } from 'rxjs';
 import { VenueBooking } from '../../_shared/models/booking.model';
 

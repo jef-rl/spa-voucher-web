@@ -1,9 +1,8 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { addDays } from '../../_shared/services/booking-days.service';
+import { addDays, startOfDay } from '../../_shared/services/booking-days.service';
 import { ShopService } from '../../_shared/services/shop.service';
-import { FormControl } from '@angular/forms';
 
-const today = new Date();
+const today = startOfDay();
 
 @Component({
   selector: 'shop-voucher',

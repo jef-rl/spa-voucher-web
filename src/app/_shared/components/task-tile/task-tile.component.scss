@@ -1,8 +1,8 @@
 div[spa-voucher-task] {
   margin: 20px 0px 0px 0px;
   display: grid;
-  grid-template-columns: auto minmax(50px, 100px) minmax(50px, 100px) minmax(50px, 100px) minmax(50px, 100px) minmax(50px, 100px) minmax(50px, 100px) minmax(50px, 100px) minmax(50px, 100px) auto;
-  grid-template-rows: auto auto auto auto auto auto;
+  grid-template-columns: auto 0 0 minmax(50px, 100px) minmax(50px, 100px) minmax(50px, 100px) minmax(50px, 100px) minmax(50px, 100px) minmax(50px, 100px) auto;
+  grid-template-rows: auto auto auto auto auto auto auto;
 }
 
 div[taskKind][arrow] {
@@ -24,6 +24,35 @@ div[taskKind]:not([arrow]) {
   background-color: rgba(0, 0, 0, 0.35);
   color: white;
   margin-left: 14px;
+}
+
+div[taskOwner][arrow] {
+  grid-column: 9 / 10;
+  grid-row: 7;
+  width: 0;
+  height: 0;
+  border-left: 14px solid transparent;
+  border-top: 18px solid rgba(0, 0, 0, 0.35);
+}
+
+div[taskOwner]:not([arrow]) {
+  grid-column: 9 / 10;
+  grid-row: 7;
+  display: grid;
+  justify-items: center;
+  align-items: center;
+  font-size: 10px;
+  background-color: rgba(0, 0, 0, 0.35);
+  color: white;
+  margin-left: 14px;
+  max-height: 18px;
+  overflow: hidden;
+  div mat-icon {
+    height: 18px;
+    width: 18px;
+    font-size: 18px;
+    line-height: 18px;
+  }
 }
 
 .booking {

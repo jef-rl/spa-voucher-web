@@ -20,34 +20,38 @@ export const taskDefinitionBooking: TaskDefinition = {
         full: ''
       },
       priority: 'high',
-      reminder: [1, 2, 3, -1]
+      reminder: [1]
     },
     {
       description: {
         short: 'check availability',
         full: ''
       },
-      priority: 'critical'
+      priority: 'critical',
+      reminder: [1, 1.5, 2]
     },
     {
       description: {
         short: 'book package',
         full: ''
       },
-      priority: 'critical'
+      priority: 'critical',
+      reminder: [1, 1.5, 2]
     },
     {
       description: {
         short: 'pay spa',
         full: ''
       },
-      priority: 'high'
+      priority: 'high',
+      reminder: [-.5, -1, -1.5, -2]
     },
     {
       description: {
         short: 'collect commision',
         full: ''
       },
+      reminder: [-.5, -1, -1.5, -2],
       priority: 'critical'
     }
   ]

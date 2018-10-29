@@ -1,3 +1,19 @@
 <ng-container *ngIf="(task$ | async) as task">
-    <dashboard-task-tile [task]="task"></dashboard-task-tile>
+  <ui-banner>
+    <div>Task</div>
+    <div side>
+      <ng-container *ngIf="task.forKind==='booking'">
+        <div>booking</div>
+      </ng-container>
+      <ng-container *ngIf="task.forKind==='voucher'">
+        <div>voucher</div>
+      </ng-container>
+    </div>
+  </ui-banner>
+  <dashboard-task-tile [task]="task" [users]="admins$ | async" (ownerSelected)="ownerSelected($event, task)"></dashboard-task-tile>
+  <div *ngIf="(processes$ | async) as processes">
+    <ng-container *ngFor="let process of processes">
+      <dashboard-process-tile [process]="process" [users]="admins$ | async" (ownerSelected)="ownerProcessSelected($event, process)"></dashboard-process-tile>
+    </ng-container>
+  </div>
 </ng-container>

@@ -1,3 +1,4 @@
+import { RedirectService } from './redirect.service';
 import { UserService } from './user.service';
 import { Injectable } from '@angular/core';
 import {
@@ -16,7 +17,11 @@ import {
 })
 export class AdministratorGuard
   implements CanActivate, CanActivateChild, CanLoad {
-  constructor(private userService: UserService, private router: Router) {}
+  constructor(
+    private userService: UserService,
+    private router: Router,
+    private redirectService: RedirectService
+  ) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -44,7 +49,8 @@ export class AdministratorGuard
     if (this.userService.isAdministrator()) {
       return true;
     }
-    this.router.navigate(['/']);
+    this.redirectService.redirect = url;
+    this.router.navigate(['/account']);
     return false;
   }
 }

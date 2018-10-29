@@ -1,3 +1,5 @@
+import { RedirectService } from './redirect.service';
+import { AdministratorGuard } from './administrator.guard';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Injectable } from '@angular/core';
@@ -12,13 +14,18 @@ import { Signed } from '../models/dashboard/signed.model';
 })
 export class UserService {
   private user$ = new BehaviorSubject<UserAccount>(null);
+  private admins$ = new BehaviorSubject<UserAccount[]>(null);
   private orders$ = new BehaviorSubject<any[]>(null);
   private bookings$ = new BehaviorSubject<any[]>(null);
   private vouchers$ = new BehaviorSubject<any[]>(null);
   private available$ = new BehaviorSubject<boolean>(null);
   private administrator = false;
   private userId = null;
-  constructor(private afAuth: AngularFireAuth, private afs: AngularFirestore) {
+  constructor(
+    private afAuth: AngularFireAuth,
+    private afs: AngularFirestore,
+    private redirectService: RedirectService
+  ) {
     this.afAuth.user
       .pipe(
         tap((user: User) => {
@@ -29,9 +36,21 @@ export class UserService {
                 if (userAccount.isAdmin) {
                   this.administrator = true;
                   this.userId = userAccount.uid;
+                  const a$ = this.afs
+                    .collection('user', ref => ref.where('isAdmin', '==', true))
+                    .valueChanges()
+                    .pipe(
+                      tap((admins: UserAccount[]) => {
+                        if (admins && admins.length && admins.length > 0) {
+                          this.admins$.next(admins);
+                        }
+                      })
+                    )
+                    .subscribe();
                 } else {
                   this.administrator = false;
                   this.userId = null;
+                  this.admins$.next(null);
                 }
                 const bookingsSub = this.afs
                   .collection('booking', ref =>
@@ -68,6 +87,11 @@ export class UserService {
                   .subscribe();
                 this.available$.next(true);
                 this.user$.next(userAccount);
+                this.redirectService.Redirect();
+                // Set our navigation extras object
+                // that passes on our global query params and fragment
+
+                // Redirect the user
               } else {
                 const newUserAccount: UserAccount = {
                   displayName: user.displayName,
@@ -106,6 +130,9 @@ export class UserService {
     return this.userId
       ? { signedOn: new Date(), signedUid: this.userId }
       : null;
+  }
+  getAdmins() {
+    return this.admins$;
   }
   getBookings() {
     return this.bookings$;

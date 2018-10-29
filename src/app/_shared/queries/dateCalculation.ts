@@ -1,4 +1,4 @@
-import { addDays } from '../services/booking-days.service';
+import { addDays, startOfDay } from '../services/booking-days.service';
 import { isDate, isNumber } from 'util';
 
 export interface DateOffsetCalculation {
@@ -13,14 +13,10 @@ export function isDateCalculation(
     (<DateOffsetCalculation>checkValue).offset !== undefined
   );
 }
-export function calculateDate(init: Date | DateOffsetCalculation | number) {
-  init = init ? init : new Date();
-  if (isDate(init)) {
-  } else if (isNumber(init)) {
-    return addDays(new Date(), init);
-  } else if (isDateCalculation(init)) {
-    init = addDays(init.date, init.offset);
+export function calculateDate(init: DateOffsetCalculation): Date {
+  if (isDateCalculation(init)) {
+    return addDays(startOfDay(init.date), init.offset);
   } else {
-    return init;
+    return null;
   }
 }

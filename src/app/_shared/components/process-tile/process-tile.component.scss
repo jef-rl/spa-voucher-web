@@ -1,0 +1,53 @@
+div[spa-voucher-process-tile] {
+  display: grid;
+  grid-template-columns: auto 90px 10px 25px 475px auto;
+  grid-template-rows: auto auto auto;
+}
+
+div[priority] {
+  grid-column: 4 / 6;
+  grid-row: 1 / 2;
+  display: grid;
+}
+
+div[description] {
+  grid-column: 4 / 6;
+  grid-row: 2 / 3;
+  display: grid;
+}
+
+div[activity] {
+  grid-column: 5 / 6;
+  grid-row: 3 / 4;
+  display: grid;
+}
+
+div[reminders] {
+  grid-column: 2 / 3;
+  grid-row: 1 / 4;
+  display: grid;
+}
+
+
+// -----  after designer
+
+div[priority] {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  >div {
+    flex: 1 0 0px;
+  }
+}
+
+div[reminders] {
+  ui-date {
+    display: none;
+  }
+}
+
+div[reminders] {
+  ui-date:first-of-type {
+    display: block !important;
+  }
+}

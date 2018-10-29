@@ -5,11 +5,13 @@ import {
   calculateDate,
   isDateCalculation
 } from '../../queries/dateCalculation';
+import { addDays, startOfDay } from '../../services/booking-days.service';
 
 export interface Activity {
   action: string;
   signed: Signed;
 }
+
 export interface Process {
   id: string;
   taskId: string;
@@ -21,7 +23,7 @@ export interface Process {
   priority: 'critical' | 'urgent' | 'high' | 'medium' | 'low' | 'optional';
   start: Date;
   end: Date;
-  reminder: Array<Date | DateOffsetCalculation | number>;
+  reminder: any[];
   activity: Activity[];
   closed: Signed;
   accepted: Signed;
@@ -60,29 +62,36 @@ export function NewProcess(initProcess: Partial<Process>): Process {
       };
   rtnProcess.priority = initProcess.priority ? initProcess.priority : null;
 
-  const start = rtnProcess.start = initProcess.start ? initProcess.start : new Date();
-  const end = rtnProcess.end = initProcess.end
-    ? initProcess.end
+  const start = (rtnProcess.start = initProcess.start
+    ? startOfDay(initProcess.start)
+    : startOfDay());
+  const end = (rtnProcess.end = initProcess.end
+    ? startOfDay(initProcess.end)
     : initProcess.start
-      ? initProcess.start
-      : new Date();
+      ? startOfDay(initProcess.start)
+      : startOfDay());
 
   if (initProcess && initProcess.reminder && isArray(initProcess.reminder)) {
-    rtnProcess.reminder = initProcess.reminder.reduce((reminders, remind) => {
-      let rtn = null;
-      if (isDate(remind)) {
-        rtn = remind;
-      }
-      if (isNumber(remind)) {
-        rtn =
-          remind >= 0
-            ? calculateDate({ date: start, offset: remind })
-            : calculateDate({ date: end, offset: remind });
-      } else if (isDateCalculation(remind)) {
-        rtn = calculateDate(remind);
-      }
-      return isNullOrUndefined(rtn) ? reminders : [...reminders, remind];
-    }, []);
+    rtnProcess.reminder = initProcess.reminder
+      .reduce((reminders, remind): Date[] => {
+        let rtn = null;
+        if (isDate(remind)) {
+          rtn = remind;
+        }
+        if (isNumber(remind)) {
+          rtn = remind >= 0 ? addDays(start, remind) : addDays(end, remind);
+        } else if (isDateCalculation(remind)) {
+          rtn = calculateDate(remind);
+        }
+        if (rtn && rtn < start) {
+          rtn = start;
+        }
+        if (rtn && rtn > end) {
+          rtn = end;
+        }
+        return isNullOrUndefined(rtn) ? reminders : [...reminders, rtn];
+      }, [])
+      .sort((a, b) => a - b);
   } else {
     rtnProcess.reminder = initProcess.reminder ? initProcess.reminder : [];
   }

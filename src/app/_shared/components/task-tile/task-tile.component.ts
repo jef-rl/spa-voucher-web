@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'dashboard-task-tile',
@@ -9,8 +9,13 @@ export class TaskTileComponent implements OnInit {
   @Input()
   task;
   @Input()
-  expanded = false;
+  users;
+  @Input() routerLnk;
+  @Output() ownerSelected  = new EventEmitter();
   constructor() {}
 
   ngOnInit() {}
+  selectUser(user) {
+    this.ownerSelected.emit(user);
+  }
 }
