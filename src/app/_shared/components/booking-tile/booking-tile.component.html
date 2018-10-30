@@ -1,23 +1,11 @@
 <div spa-voucher-booking-tile>
-  <div month>
-    <div>{{booking?.date.toDate() | date:'MMMM'}}</div>
+  <div date>
+    <ui-date [date]="booking?.date"></ui-date>
   </div>
-  <div day>
-    <div>{{booking?.date.toDate() | date:'d'}}</div>
-  </div>
-  <div year>
-    <div>{{booking?.date.toDate() | date:'yyyy'}}</div>
-  </div>
-  <div venue>
-    <div>{{booking?.venueName}}</div>
-  </div>
-  <div address>
-    <div>{{booking?.venueAddr}}</div>
-  </div>
-  <div package>
-    <div>{{booking?.venuePack}}</div>
+  <div booking>
+    <ui-booking [booking]="booking"></ui-booking>
   </div>
   <div price>
-    <div>£{{booking?.bookingValue | number:'0.0-0' }}</div>
+    <ui-price [price]="booking?.bookingValue"></ui-price>
   </div>
 </div>

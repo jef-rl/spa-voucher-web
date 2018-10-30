@@ -6,7 +6,9 @@
     <div>
       <ng-container *ngFor="let activityItem of process?.activity">{{activityItem?.action}}</ng-container>
     </div>
-    <div></div>
+    <div><button mat-mini-fab (click)="activityAdd()">
+        <mat-icon class="mat-18">add</mat-icon>
+      </button></div>
   </div>
   <div reminders>
     <div>
@@ -29,16 +31,18 @@
     </ng-container>
   </div>
   <div taskOwner>
-    <ng-container *ngIf="process.ownerUid"> {{process.ownerId}} </ng-container>
+    <div *ngIf="process.ownerUid">
+      <ui-user [user]="getDisplayUser(process.ownerUid)" [small]="true" [matMenuTriggerFor]="usrList"></ui-user>
+    </div>
     <ng-container *ngIf="!process.ownerUid && users && users.length && users.length>0">
       <div [matMenuTriggerFor]="usrList">
         <mat-icon>person_outline</mat-icon>
       </div>
-      <mat-menu #usrList="matMenu">
-        <div mat-menu-item *ngFor="let user of users" (click)="selectUser(user)">
-          <ui-user-tile [user]="user"></ui-user-tile>
-        </div>
-      </mat-menu>
     </ng-container>
   </div>
 </div>
+<mat-menu #usrList="matMenu">
+  <div mat-menu-item *ngFor="let user of users" (click)="selectUser(user)">
+    <ui-user [user]="user"></ui-user>
+  </div>
+</mat-menu>

@@ -12,11 +12,21 @@ export class ProcessTileComponent implements OnInit {
   process;
   @Input()
   users;
-  @Output() ownerSelected  = new EventEmitter();
+  @Output()
+  ownerSelected = new EventEmitter();
+  @Output()
+  addActivity = new EventEmitter();
   constructor() {}
 
   ngOnInit() {}
   selectUser(user) {
     this.ownerSelected.emit(user);
+  }
+  activityAdd() {
+    this.addActivity.emit();
+  }
+  getDisplayUser(uid) {
+    const rtn = this.users.filter(usr => usr && usr.uid && usr.uid === uid);
+    return rtn && rtn.length && rtn.length > 0 ? rtn[0] : null;
   }
 }

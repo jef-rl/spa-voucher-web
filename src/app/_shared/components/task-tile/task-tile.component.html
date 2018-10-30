@@ -1,4 +1,37 @@
-<div spa-voucher-task [ngClass]="task.forKind">
+<div spa-voucher-task-tile [ngClass]="task.forKind">
+  <div borders></div>
+  <div totals>
+    <div>
+      <div required>
+        <div lbl>REQUIRED</div>
+        <div>{{task?.processes?.required}}</div>
+      </div>
+      <div completed>
+        <div lbl>COMPLETED</div>
+        <div>{{task?.processes?.completed}}</div>
+      </div>
+    </div>
+  </div>
+  <div owner>
+    <div>
+      <div taskowner user *ngIf="task.ownerUid" [matMenuTriggerFor]="usrList">
+        <ui-user [user]="getDisplayUser(task.ownerUid)"></ui-user>
+      </div>
+      <div taskowner assign *ngIf="!task.ownerUid && users && users.length && users.length>0" [matMenuTriggerFor]="usrList">
+        <mat-icon>person_add</mat-icon>
+      </div>
+    </div>
+  </div>
+  <div for [routerLink]="routerLnk" class="no-border">
+    <ng-container *ngIf="task?.forDoc | async as taskFor">
+      <ng-container *ngIf="task.forKind==='booking'">
+        <booking-tile [booking]="taskFor"></booking-tile>
+      </ng-container>
+      <ng-container *ngIf="task.forKind==='voucher'">
+        <voucher-tile [voucher]="taskFor"></voucher-tile>
+      </ng-container>
+    </ng-container>
+  </div>
   <div taskKind arrow></div>
   <div taskKind [routerLink]="routerLnk">
     <ng-container *ngIf="task.forKind==='booking'">
@@ -8,70 +41,9 @@
       <div>voucher</div>
     </ng-container>
   </div>
-  <div taskTitle [routerLink]="routerLnk">
-    <div>{{task?.title}}</div>
-  </div>
-  <div taskPriorities [routerLink]="routerLnk">
-    <div></div>
-  </div>
-  <div criticals>
-    <div lbl>CRITICAL</div>
-    <div>{{task?.processes?.criticals}}</div>
-  </div>
-  <div urgents>
-    <div lbl>URGENT</div>
-    <div>{{task?.processes?.urgents}}</div>
-  </div>
-  <div highs>
-    <div lbl>HIGH</div>
-    <div>{{task?.processes?.highs}}</div>
-  </div>
-  <div mediums>
-    <div lbl>MEDIUM</div>
-    <div>{{task?.processes?.mediums}}</div>
-  </div>
-  <div lows>
-    <div lbl>LOW</div>
-    <div>{{task?.processes?.lows}}</div>
-  </div>
-  <div optionals>
-    <div lbl>OPTIONAL</div>
-    <div>{{task?.processes?.optionals}}</div>
-  </div>
-  <div taskTotals [routerLink]="routerLnk">
-    <div></div>
-  </div>
-  <div completed>
-    <div lbl>COMPLETED</div>
-    <div>{{task?.processes?.completed}}</div>
-  </div>
-  <div required>
-    <div lbl>REQUIRED</div>
-    <div>{{task?.processes?.required}}</div>
-  </div>
-  <div for [routerLink]="routerLnk">
-    <div>
-      <ng-container *ngIf="task?.forDoc | async as taskFor">
-        <ng-container *ngIf="task.forKind==='booking'">
-          <booking-tile [booking]="taskFor"></booking-tile>
-        </ng-container>
-        <ng-container *ngIf="task.forKind==='voucher'">
-          <voucher-tile [voucher]="taskFor"></voucher-tile>
-        </ng-container>
-      </ng-container>
-    </div>
-    <div lbl>PROCESSES</div>
-  </div>
-  <div taskOwner arrow></div>
-  <div taskOwner *ngIf="task.ownerUid">{{task.ownerId}}</div>
-  <div taskOwner *ngIf="!task.ownerUid && users && users.length && users.length>0" [matMenuTriggerFor]="usrList">
-    <div>
-      <mat-icon>person_outline</mat-icon>
-    </div>
-    <mat-menu #usrList="matMenu">
-      <div mat-menu-item *ngFor="let user of users" (click)="selectUser(user)">
-        <ui-user-tile [user]="user"></ui-user-tile>
-      </div>
-    </mat-menu>
-  </div>
 </div>
+<mat-menu #usrList="matMenu">
+  <div mat-menu-item *ngFor="let user of users" (click)="selectUser(user)">
+    <ui-user [user]="user"></ui-user>
+  </div>
+</mat-menu>

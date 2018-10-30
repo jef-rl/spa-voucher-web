@@ -47,8 +47,20 @@ export class ProcessService {
       initProcess.ownerUid = initProcess.ownerUid
         ? initProcess.ownerUid
         : forTask.ownerUid;
-        initProcess.start = initProcess.start ? initProcess.start : forTask.created;
-        initProcess.end = initProcess.end ? initProcess.end : forTask.deadline;
+      initProcess.start = initProcess.start
+        ? initProcess.start
+        : forTask.created && forTask.created.getUTCFullYear
+          ? forTask.created
+          : forTask.created.toDate
+            ? forTask.created.toDate()
+            : new Date();
+      initProcess.end = initProcess.end
+        ? initProcess.end
+        : forTask.deadline && forTask.deadline.getUTCFullYear
+          ? forTask.deadline
+          : forTask.deadline.toDate
+            ? forTask.deadline.toDate()
+            : new Date();
     }
     const newProcess = NewProcess(initProcess);
     this.afs

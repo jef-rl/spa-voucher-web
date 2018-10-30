@@ -2,8 +2,9 @@
   <div>Dashboard</div>
   <div side></div>
 </ui-banner>
+<!-- <dashboard-calender></dashboard-calender> -->
 <ng-container *ngIf="(tasks$ | async) as tasks">
-  <ng-container *ngFor="let task of tasks">
+  <ng-container *ngFor="let task of tasks; trackBy:trackByTask">
     <dashboard-task-tile [routerLnk]="[ 'task', task.id ]" [task]="task" [users]="admins$ | async" (ownerSelected)="ownerSelected($event, task)"></dashboard-task-tile>
   </ng-container>
 </ng-container>

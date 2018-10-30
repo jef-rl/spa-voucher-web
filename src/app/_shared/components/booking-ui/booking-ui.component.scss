@@ -1,0 +1,32 @@
+:host {
+  display: grid;
+  justify-items: start;
+  align-items: stretch;
+}
+
+div[venue] {
+  grid-column: 2 / 3;
+  grid-row: 1 / 2;
+  display: grid;
+  justify-items: start;
+  align-items: center;
+  font: 300 14px/18px Raleway, sans-serif;
+}
+
+div[address] {
+  grid-column: 2 / 3;
+  grid-row: 2 / 3;
+  display: grid;
+  font: 300 12px/20px Raleway, sans-serif;
+  justify-items: start;
+  align-items: center;
+}
+
+div[package] {
+  grid-column: 2 / 3;
+  grid-row: 3 / 4;
+  display: grid;
+  justify-items: start;
+  align-items: center;
+  font: 300 14px/18px Raleway, sans-serif;
+}

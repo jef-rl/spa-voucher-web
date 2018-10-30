@@ -1,0 +1,48 @@
+[user] {
+  position: relative;
+  padding: 5px 5px 5px 96px;
+
+  img {
+    height: 40px;
+    width: 40px;
+    border-radius: 25px;
+    position: absolute;
+    left: 28px;
+    top: 5px;
+  }
+
+  [name] {
+    display: block;
+    font: 300 14px/18px Raleway, sans-serif;
+  }
+
+  [email] {
+    display: block;
+    font: 300 12px/20px Raleway, sans-serif;
+  }
+}
+
+[user].small {
+  position: relative;
+  padding: 5px 5px 5px 30px;
+  height: 20px;
+  display: grid;
+  justify-content: start;
+  align-content: space-evenly;
+
+  img {
+    height: 20px;
+    width: 20px;
+    left: 5px;
+    top: 5px;
+  }
+
+  [name] {
+    display: block;
+    font: 100 12px/12px Raleway, sans-serif;
+  }
+
+  [email] {
+    display: none;
+  }
+}

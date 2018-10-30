@@ -21,8 +21,8 @@ export interface Process {
     full: string;
   };
   priority: 'critical' | 'urgent' | 'high' | 'medium' | 'low' | 'optional';
-  start: Date;
-  end: Date;
+  start: Date | any;
+  end: Date | any;
   reminder: any[];
   activity: Activity[];
   closed: Signed;

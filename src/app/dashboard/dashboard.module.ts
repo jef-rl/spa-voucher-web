@@ -1,3 +1,4 @@
+import { DashboardCalenderComponent } from './calender/calender.component';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -21,9 +22,10 @@ import { TaskPageComponent } from './page/task/task.component';
     DashboardRoutingModule
   ],
   declarations: [
+    DashboardCalenderComponent,
     DashboardPageComponent,
     DashboardTasksComponent,
-    TaskPageComponent
+    TaskPageComponent,
   ],
   providers: [ProcessService]
 })

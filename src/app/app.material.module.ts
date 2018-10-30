@@ -92,7 +92,7 @@ import {
     LayoutModule
   ],
   providers: [
-    { provide: MAT_LABEL_GLOBAL_OPTIONS, useValue: { float: 'always' } },
+    // { provide: MAT_LABEL_GLOBAL_OPTIONS, useValue: { float: 'always' } },
     { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
     {
       provide: MAT_BOTTOM_SHEET_DEFAULT_OPTIONS,

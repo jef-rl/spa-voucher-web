@@ -20,7 +20,7 @@ export const taskDefinitionBooking: TaskDefinition = {
         full: ''
       },
       priority: 'high',
-      reminder: [1]
+      reminder: [0, 1]
     },
     {
       description: {

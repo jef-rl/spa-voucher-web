@@ -13,7 +13,7 @@
   <dashboard-task-tile [task]="task" [users]="admins$ | async" (ownerSelected)="ownerSelected($event, task)"></dashboard-task-tile>
   <div *ngIf="(processes$ | async) as processes">
     <ng-container *ngFor="let process of processes">
-      <dashboard-process-tile [process]="process" [users]="admins$ | async" (ownerSelected)="ownerProcessSelected($event, process)"></dashboard-process-tile>
+      <dashboard-process-tile [process]="process" [users]="admins$ | async" (ownerSelected)="ownerProcessSelected($event, process)" (addActivity)="openActivityBottomSheet(process)"></dashboard-process-tile>
     </ng-container>
   </div>
 </ng-container>

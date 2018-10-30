@@ -18,4 +18,8 @@ export class TaskTileComponent implements OnInit {
   selectUser(user) {
     this.ownerSelected.emit(user);
   }
+  getDisplayUser(uid) {
+    const rtn = this.users.filter(usr => usr && usr.uid && usr.uid === uid);
+    return rtn && rtn.length && rtn.length > 0 ? rtn[0] : null;
+  }
 }

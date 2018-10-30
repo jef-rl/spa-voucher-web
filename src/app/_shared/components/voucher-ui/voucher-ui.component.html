@@ -1,0 +1,7 @@
+<div messsage>
+    <div *ngIf="voucher && voucher.recipientMessage && voucher.recipientMessage.trim().length>0">{{voucher?.recipientMessage}}</div>
+    <div *ngIf="!(voucher && voucher.recipientMessage && voucher.recipientMessage.trim().length>0)"><small><em>no message</em></small></div>
+  </div>
+<div code>
+  <div>{{voucher?.voucherCode}}</div>
+</div>

@@ -17,49 +17,33 @@ div[spa-voucher-voucher-tile] {
   border-top: none;
 }
 
-div[month] {
+:host-context(.no-border) div[spa-voucher-voucher-tile] {
+  max-width: 960px;
+  grid-template-columns: 80px minmax(140px, 100vw) 80px;
+  border: none;
+}
+
+:host-context(.no-border) {
+  max-width: 960px;
+  display: flex;
+  margin: auto;
+}
+
+
+div[date] {
   grid-column: 1;
-  grid-row: 1 / 2;
+  grid-row: 1 / 4;
   display: grid;
-  font: 300 12px/20px Raleway, sans-serif;
   justify-items: center;
   align-items: center;
 }
 
-div[day] {
-  grid-column: 1;
-  grid-row: 2 / 3;
-  display: grid;
-  font: 600 30px/32px Raleway, sans-serif;
-  justify-items: center;
-  align-items: center;
-}
-
-div[year] {
-  grid-column: 1;
-  grid-row: 3 / 4;
-  display: grid;
-  font: 300 12px/20px Raleway, sans-serif;
-  justify-items: center;
-  align-items: center;
-}
-
-div[message] {
+div[voucher] {
   grid-column: 2 / 3;
-  grid-row: 1 / 3;
-  display: grid;
-  font: 300 12px/20px Raleway, sans-serif;
-  justify-items: start;
-  align-items: center;
-}
-
-div[code] {
-  grid-column: 2;
-  grid-row: 3 / 4;
+  grid-row: 1 / 4;
   display: grid;
   justify-items: start;
-  align-items: center;
-  font: 300 14px/18px Raleway, sans-serif;
+  align-items: stretch;
 }
 
 div[price] {

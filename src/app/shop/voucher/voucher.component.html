@@ -24,15 +24,19 @@
     </div>
   </div>
   <div recipient>
-    <mat-form-field>
-      <input matInput placeholder="Recipient Name" type="text" class="form-control" id="name" [(ngModel)]="name" /> </mat-form-field>
-    <mat-form-field>
-      <input matInput placeholder="Recipient Email" type="email" class="form-control" id="email" [(ngModel)]="email" /> </mat-form-field>
-    <mat-form-field>
-      <input matInput [disabled]="voucherType==='electronic'" placeholder="Recipient Address" type="text" class="form-control" id="addr" [(ngModel)]="address" />
+    <mat-form-field appearance="fill">
+        <mat-label>Recipient Name</mat-label>
+      <input matInput type="text" class="form-control" id="name" [(ngModel)]="name" /> </mat-form-field>
+    <mat-form-field appearance="fill">
+        <mat-label>Recipient Email</mat-label>
+      <input matInput type="email" class="form-control" id="email" [(ngModel)]="email" /> </mat-form-field>
+    <mat-form-field appearance="fill">
+        <mat-label>Recipient Address</mat-label>
+      <input matInput [disabled]="voucherType==='electronic'" type="text" class="form-control" id="addr" [(ngModel)]="address" />
     </mat-form-field>
-    <mat-form-field>
-      <input matInput placeholder="Recipient Message" type="text" class="form-control" id="message" [(ngModel)]="message" />
+    <mat-form-field appearance="fill">
+        <mat-label>Recipient Message</mat-label>
+      <input matInput type="text" class="form-control" id="message" [(ngModel)]="message" />
     </mat-form-field>
       <mat-label>Recipient Date</mat-label>
     <ng-container *ngIf="recipientDate">

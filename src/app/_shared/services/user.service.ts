@@ -21,6 +21,7 @@ export class UserService {
   private available$ = new BehaviorSubject<boolean>(null);
   private administrator = false;
   private userId = null;
+  private displayUsers;
   constructor(
     private afAuth: AngularFireAuth,
     private afs: AngularFirestore,
@@ -42,6 +43,9 @@ export class UserService {
                     .pipe(
                       tap((admins: UserAccount[]) => {
                         if (admins && admins.length && admins.length > 0) {
+                          this.displayUsers = admins.reduce((acc, usr) => {
+                            return { ...acc, [usr.uid]: usr };
+                          }, {});
                           this.admins$.next(admins);
                         }
                       })
@@ -50,6 +54,7 @@ export class UserService {
                 } else {
                   this.administrator = false;
                   this.userId = null;
+                  this.displayUsers = null;
                   this.admins$.next(null);
                 }
                 const bookingsSub = this.afs
@@ -137,7 +142,6 @@ export class UserService {
   getBookings() {
     return this.bookings$;
   }
-
   getVouchers() {
     return this.vouchers$;
   }

@@ -23,11 +23,11 @@ export class DashboardPageComponent implements OnInit {
     this.tasks$ = this.taskService.Tasks();
   }
 
-  Select(id) {
-    this.taskService.Select(id);
-  }
   ownerSelected(user, task) {
-    console.log(user,task);
+    console.log(user, task);
     this.taskService.assignOwner(user, task);
+  }
+  trackByTask(index: number, task: Task): string {
+    return task.id;
   }
 }

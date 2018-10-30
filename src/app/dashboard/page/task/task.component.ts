@@ -1,3 +1,4 @@
+import { ActivityBottomSheetComponent } from './../../../_shared/containers/activity-bottom-sheet/activity-bottom-sheet.component';
 import { CdkDragEnter, CdkDragExit } from '@angular/cdk/drag-drop';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
@@ -11,6 +12,7 @@ import {
 import { UserService } from 'src/app/_shared/services/user.service';
 import { Process } from './../../../_shared/models/dashboard/process.model';
 import { TaskService } from './../../../_shared/services/dashboard/task.service';
+import { MatBottomSheet } from '@angular/material';
 
 @Component({
   selector: 'dashboard-task-page',
@@ -25,7 +27,8 @@ export class TaskPageComponent implements OnInit {
   constructor(
     private taskService: TaskService,
     private route: ActivatedRoute,
-    private userService: UserService
+    private userService: UserService,
+    private bottomSheet: MatBottomSheet
   ) {
     const t$ = this.route.paramMap.subscribe((params: ParamMap) => {
       this.taskService.Select(params.get('taskId'));
@@ -37,23 +40,6 @@ export class TaskPageComponent implements OnInit {
   ngOnInit() {
     this.admins$ = this.userService.getAdmins();
   }
-  drop(ev) {
-    console.log(ev);
-    if (ev && ev.item && ev.item.data && ev.item.data.length === 2) {
-      const task = ev.item.data[1][ev.currentIndex];
-      const admin = ev.item.data[0];
-      console.log(task, admin);
-    }
-  }
-  entered(event: CdkDragEnter) {
-    console.log('Entered', event.item.data);
-  }
-  exited(event: CdkDragExit) {
-    console.log('Exited', event.item.data);
-  }
-  dropat(t) {
-    console.log(t);
-  }
   Select(id) {
     this.taskService.Select(id);
   }
@@ -62,5 +48,21 @@ export class TaskPageComponent implements OnInit {
   }
   ownerProcessSelected(user, process) {
     this.taskService.assignProcessOwner(user, process);
+  }
+  openActivityBottomSheet() {
+    const addSheet = this.bottomSheet.open(ActivityBottomSheetComponent);
+
+    addSheet.afterDismissed().subscribe(result => {
+      if (result) {
+        this.taskService.AddProcess(   {
+          description: {
+            short: 'optional additional process',
+            full: ''
+          },
+          priority: 'optional',
+          reminder: [1]
+        });
+      }
+    });
   }
 }

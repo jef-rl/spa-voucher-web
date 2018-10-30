@@ -6,8 +6,8 @@ export interface Task {
   forKind: string;
   forId: string;
   title: string;
-  created: Date;
-  deadline: Date;
+  created: Date | any;
+  deadline: Date | any;
   closed: Signed;
   approval: Signed;
   archiveOn: Date;
